@@ -19,6 +19,9 @@ class DaneSerwis {
     }
 
     Dane dodajDane(Dane dane) {
+        daneRepozytorium.findById(dane.getImie()).ifPresent(d -> {
+            throw new IllegalArgumentException("Dane się powtarzają");
+        });
         return daneRepozytorium.save(dane);
     }
 

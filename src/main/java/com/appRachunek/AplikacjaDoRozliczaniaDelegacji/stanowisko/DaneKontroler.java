@@ -1,4 +1,4 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.dane;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
 
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
 import org.springframework.http.HttpStatus;
@@ -14,32 +14,33 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/imie")
-class DaneKontroler {
-    private final DaneSerwis daneSerwis;
+@RequestMapping("/funkcja")
+class FunckjaKontroler {
+    private final FunkcjaSerwis funkcjaSerwis;
 
-    DaneKontroler(DaneSerwis daneSerwis) {
-        this.daneSerwis = daneSerwis;
+    FunckjaKontroler(FunkcjaSerwis funkcjaSerwis) {
+        this.funkcjaSerwis = funkcjaSerwis;
     }
 
+
     @GetMapping
-    List<Dane> pobierzWszystko(@RequestParam SortType sortType) {
-        return daneSerwis.pobracWszystkieDane();
+    List<Funkcja> pobierzWszystko(@RequestParam SortType sortType) {
+        return funkcjaSerwis.pobracWszystkieDane();
     }
 
     @PostMapping
-    Dane dodaj(@Validated(value = DodajDane.class) @RequestBody Dane dane) {
-        return daneSerwis.dodajDane(dane);
+    Funkcja dodaj(@Validated(value = DodajFunkcje.class) @RequestBody Funkcja funkcja) {
+        return funkcjaSerwis.dodajDane(funkcja);
     }
 
-    @PutMapping("/{imie}")
-    Dane zaktualizuj(@PathVariable String imie, @Validated(value = ZaktualizujDane.class) @RequestBody Dane dane) {
-        return daneSerwis.zakutalizujDane(imie, dane);
+    @PutMapping("/{id}")
+    Funkcja zaktualizuj(@PathVariable String id, @Validated(value = ZaktualizujFunkcje.class) @RequestBody Funkcja funkcja) {
+        return funkcjaSerwis.zakutalizujDane(id, funkcja);
     }
 
-    @DeleteMapping("/{imie}")
-    Dane usun(@PathVariable String imie) {
-        return daneSerwis.usunDane(imie);
+    @DeleteMapping("/{id}")
+    Funkcja usun(@PathVariable String id) {
+        return funkcjaSerwis.usunDane(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
