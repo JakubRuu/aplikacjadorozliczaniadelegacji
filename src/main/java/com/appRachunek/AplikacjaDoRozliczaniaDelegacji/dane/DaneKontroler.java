@@ -60,8 +60,8 @@ class DaneKontroler {
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)
-    ResponseEntity<Object> handleIllegalArgumentException(NoSuchElementException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

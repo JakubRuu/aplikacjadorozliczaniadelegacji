@@ -15,22 +15,21 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/funkcja")
-class FunckjaKontroler {
+class FunkcjaKontroler {
     private final FunkcjaSerwis funkcjaSerwis;
 
-    FunckjaKontroler(FunkcjaSerwis funkcjaSerwis) {
+    public FunkcjaKontroler(FunkcjaSerwis funkcjaSerwis) {
         this.funkcjaSerwis = funkcjaSerwis;
     }
 
-
     @GetMapping
     List<Funkcja> pobierzWszystko(@RequestParam SortType sortType) {
-        return funkcjaSerwis.pobracWszystkieDane();
+        return funkcjaSerwis.pobracWszystkieDane(sortType);
     }
 
     @PostMapping
     Funkcja dodaj(@Validated(value = DodajFunkcje.class) @RequestBody Funkcja funkcja) {
-        return funkcjaSerwis.dodajDane(funkcja);
+        return funkcjaSerwis.dodajFunkcje(funkcja);
     }
 
     @PutMapping("/{id}")
@@ -38,9 +37,14 @@ class FunckjaKontroler {
         return funkcjaSerwis.zakutalizujDane(id, funkcja);
     }
 
+    @GetMapping("/{id}")
+    Funkcja pobierzPoId(String id) {
+        return funkcjaSerwis.pobranieFunkcjiPoId(id);
+    }
+
     @DeleteMapping("/{id}")
     Funkcja usun(@PathVariable String id) {
-        return funkcjaSerwis.usunDane(id);
+        return funkcjaSerwis.usunFunkcje(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -60,9 +64,9 @@ class FunckjaKontroler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = NoSuchElementException.class)
-    ResponseEntity<Object> handleIllegalArgumentException(NoSuchElementException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -16,7 +16,7 @@ interface ZaktualizujFunkcje {
 public class Funkcja {
 
     @Id
-    @Size(min = 3, max = 20)
+    @Size(min = 1, max = 20)
     @NotBlank
     private String id;
     private String funkcja;

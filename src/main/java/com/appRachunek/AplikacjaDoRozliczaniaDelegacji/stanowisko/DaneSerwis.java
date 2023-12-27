@@ -1,6 +1,9 @@
 package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
 
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,18 +17,24 @@ class FunkcjaSerwis {
         this.funkcjaRepozytorium = funkcjaRepozytorium;
     }
 
-    List<Funkcja> pobracWszystkieDane() {
-        return funkcjaRepozytorium.findAll();
+    List<Funkcja> pobracWszystkieDane(@RequestParam(defaultValue = "ASC") SortType sortType) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortType.name()), "id");
+        return funkcjaRepozytorium.findAll(sort);
     }
 
-    Funkcja dodajDane(Funkcja funkcja) {
+    Funkcja pobranieFunkcjiPoId(String id) {
+        return funkcjaRepozytorium.findById(id).orElseThrow(() -> new NoSuchElementException("Brak funkcji!"));
+    }
+
+
+    Funkcja dodajFunkcje(Funkcja funkcja) {
         funkcjaRepozytorium.findById(funkcja.getId()).ifPresent(d -> {
             throw new IllegalArgumentException("Dane się powtarzają");
         });
         return funkcjaRepozytorium.save(funkcja);
     }
 
-    Funkcja usunDane(String id) {
+    Funkcja usunFunkcje(String id) {
         Funkcja dane = funkcjaRepozytorium.findById(id).orElseThrow(() -> new NoSuchElementException(""));
         funkcjaRepozytorium.deleteById(id);
         return dane;
