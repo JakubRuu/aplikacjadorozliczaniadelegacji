@@ -14,37 +14,37 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/funkcja")
-class FunkcjaKontroler {
-    private final FunkcjaSerwis funkcjaSerwis;
+@RequestMapping("/function")
+class FunctionController {
+    private final FunctionService functionService;
 
-    public FunkcjaKontroler(FunkcjaSerwis funkcjaSerwis) {
-        this.funkcjaSerwis = funkcjaSerwis;
+    public FunctionController(FunctionService functionService) {
+        this.functionService = functionService;
     }
 
     @GetMapping
-    List<Funkcja> pobierzWszystko(@RequestParam SortType sortType) {
-        return funkcjaSerwis.pobracWszystkieDane(sortType);
+    List<Function> getAll(@RequestParam SortType sortType) {
+        return functionService.getAllFunction(sortType);
     }
 
     @PostMapping
-    Funkcja dodaj(@Validated(value = DodajFunkcje.class) @RequestBody Funkcja funkcja) {
-        return funkcjaSerwis.dodajFunkcje(funkcja);
+    Function add(@Validated(value = AddFunction.class) @RequestBody Function function) {
+        return functionService.addFunction(function);
     }
 
-    @PutMapping("/{id}")
-    Funkcja zaktualizuj(@PathVariable String id, @Validated(value = ZaktualizujFunkcje.class) @RequestBody Funkcja funkcja) {
-        return funkcjaSerwis.zakutalizujDane(id, funkcja);
+    @PutMapping("/{name}")
+    Function update(@PathVariable String name, @Validated(value = UpdateFunction.class) @RequestBody Function function) {
+        return functionService.updateFunction(name, function);
     }
 
-    @GetMapping("/{id}")
-    Funkcja pobierzPoId(String id) {
-        return funkcjaSerwis.pobranieFunkcjiPoId(id);
+    @GetMapping("/{name}")
+    Function getWithId(String name) {
+        return functionService.getFunction(name);
     }
 
-    @DeleteMapping("/{id}")
-    Funkcja usun(@PathVariable String id) {
-        return funkcjaSerwis.usunFunkcje(id);
+    @DeleteMapping("/{name}")
+    Function delete(@PathVariable String name) {
+        return functionService.deleteFunction(name);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
