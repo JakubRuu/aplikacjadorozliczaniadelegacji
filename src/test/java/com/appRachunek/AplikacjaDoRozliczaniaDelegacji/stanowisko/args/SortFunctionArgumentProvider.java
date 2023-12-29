@@ -18,7 +18,7 @@ public class SortFunctionArgumentProvider implements ArgumentsProvider {
                 ),
                 Arguments.of(
                         SortType.DESC,
-                        Sort.by(Sort.Direction.DESC,"id")
+                        Sort.by(Sort.Direction.DESC, "id")
                 )
 
 

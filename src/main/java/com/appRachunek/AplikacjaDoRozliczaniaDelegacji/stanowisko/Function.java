@@ -26,6 +26,11 @@ public class Function {
     private String name;
     private String function;
 
+    public Function(String name, String function) {
+        this.name = name;
+        this.function = function;
+    }
+
     public Function(Long id, String name, String function) {
         this.id = id;
         this.name = name;

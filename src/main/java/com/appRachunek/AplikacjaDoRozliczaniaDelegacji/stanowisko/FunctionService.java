@@ -39,6 +39,7 @@ class FunctionService {
         functionRepository.deleteById(function.getId());
         return function;
     }
+
     Function updateFunction(String name, Function function) {
         Function updatedFunction = functionRepository
                 .findByName(name)
