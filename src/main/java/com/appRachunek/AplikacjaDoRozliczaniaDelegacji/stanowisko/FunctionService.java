@@ -44,7 +44,12 @@ class FunctionService {
         Function updatedFunction = functionRepository
                 .findByName(name)
                 .orElseThrow(() -> new NoSuchElementException(""));
-        if (function.getName() != null) {
+
+        if (function.getName() != null && !function.getName().equals(updatedFunction.getName())) {
+            functionRepository.findByName(function.getName())
+                    .ifPresent(o -> {
+                        throw new IllegalArgumentException("Dane się powtarzają");
+                    });
             updatedFunction.setName(function.getName());
         }
         if (function.getFunction() != null) {

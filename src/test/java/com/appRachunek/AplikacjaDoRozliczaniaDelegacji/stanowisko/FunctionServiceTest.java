@@ -153,6 +153,24 @@ class FunctionServiceTest {
         Mockito.verify(functionRepository).findByName(name);
 
     }
+    @Test
+    void when_update_function_name_which_is_not_unique_then_exception_should_be_thrown(){
+        //given
+        String name1= "Rutkowski";
+        Function existingFun1 = new Function(name1,"Sędzia");
+        String name2= "Iksiński";
+        Function existingFun2 = new Function(name2,"Sędzia Asystent");
+        Function updateFunction= new Function(name2,"Sędzia");
+        Mockito.when(functionRepository.findByName(name1)).thenReturn(Optional.of(existingFun1));
+        Mockito.when(functionRepository.findByName(name2)).thenReturn(Optional.of(existingFun2));
+
+        //when
+        //then
+        assertThrows(IllegalArgumentException.class, ()->{
+            functionService.updateFunction(name1, updateFunction);
+        });
+        Mockito.verify(functionRepository,Mockito.never()).save(updateFunction);
+    }
 
     @TestConfiguration
     static class FunctionServiceTestConfig {
