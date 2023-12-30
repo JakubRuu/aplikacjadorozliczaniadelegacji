@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -21,8 +22,8 @@ public class Function {
     @GeneratedValue
     private Long id;
 
-    @Size(min = 1, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20, groups = {AddFunction.class, UpdateFunction.class})
+    @NotBlank(groups = AddFunction.class)
     private String name;
     private String function;
 

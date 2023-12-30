@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/function")
+@RequestMapping("/functions")
 class FunctionController {
     private final FunctionService functionService;
 
