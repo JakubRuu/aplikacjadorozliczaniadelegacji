@@ -20,7 +20,7 @@ public class SortTypeArgumentProvider implements ArgumentsProvider {
                         SortType.DESC
                 ),
                 Arguments.of(
-                        "",
+                        "?sortType=ASC",
                         SortType.ASC
                 )
         );

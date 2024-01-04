@@ -24,9 +24,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(FunctionController.class)
@@ -60,29 +62,10 @@ class FunctionControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.function", equalTo("Sędzia")));
     }
 
-    @Test
-    void when_add_invalid_function_then_exception_should_be_thrown() throws Exception {
-        //given
-        //then
-        //when
-        mockMvc.perform(MockMvcRequestBuilders.post("/functions")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(
-                                """
-                                        {
-                                            "function":"Sędzia",
-                                            "name":"R"
-                                        }
-                                        """
-                        )
-                ).andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("size must be between 2 and 20")));
-    }
 
     @ParameterizedTest
     @ArgumentsSource(ValidateAddFunctionArgumentProvider.class)
-    void when_add_invalid_function_arg1_then_exception_should_be_thrown_with_arg2_details(String arg1, String arg2) throws Exception {
+    void when_add_invalid_function_arg1_then_exception_should_be_thrown_with_arg2_details(String arg1, List<String> arg2) throws Exception {
         //given
         //then
         //when
@@ -91,12 +74,13 @@ class FunctionControllerTest {
                         .content(arg1)
                 ).andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo(arg2)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(400)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalToIgnoringCase("Bad Request")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details.name", equalTo(arg2)));
     }
 
 
-    @ParameterizedTest
-    @ArgumentsSource(ValidateAddFunctionArgumentProvider.class)
+    @Test
     void when_add_already_existing_organization_then_exception_should_be_thrown() throws Exception {
         //given
         Function function = new Function("Rutkowski", "Sędzia");
@@ -114,7 +98,10 @@ class FunctionControllerTest {
                                         """
                         )
                 ).andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(400)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalTo("Bad Request")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details", equalTo("organization already exists!")));
     }
 
     @Test
@@ -143,7 +130,10 @@ class FunctionControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/functions/" + name)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(404)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalToIgnoringCase("Not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details", equalToIgnoringCase("No organization found")));
     }
 
     @Test
@@ -166,7 +156,10 @@ class FunctionControllerTest {
                         )
                 )
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(404)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalToIgnoringCase("Not found")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details", equalToIgnoringCase("No organization found")));
     }
 
     @Test
@@ -207,8 +200,8 @@ class FunctionControllerTest {
 
     @ParameterizedTest
     @ArgumentsSource(SortTypeArgumentProvider.class)
-    void when_get__non_empty_function_list_then_array_with_orgs_should_be_returned(String arg1,
-                                                                                   SortType arg2) throws Exception {
+    void when_get_non_empty_function_list_then_array_with_orgs_should_be_returned(String arg1,
+                                                                                  SortType arg2) throws Exception {
         //given
         ArgumentCaptor<SortType> sortArgumentCaptor = ArgumentCaptor.forClass(SortType.class);
         Mockito.when(functionService.getAllFunction(arg2)).thenReturn(
@@ -228,7 +221,7 @@ class FunctionControllerTest {
 
     @ParameterizedTest
     @ArgumentsSource(ValidateUpdatedFunctionArgumentProvider.class)
-    void when_updated_invalid_function_arg1_then_validation_should_happen(String arg1, boolean result, String arg2) throws Exception {
+    void when_updated_invalid_function_arg1_then_validation_should_happen(String arg1, boolean result, List<String> arg2) throws Exception {
         //given
         String existingFunName = "Rutkowski";
         //then
@@ -241,7 +234,9 @@ class FunctionControllerTest {
         } else {
             resultActions.andExpect(MockMvcResultMatchers.status().is4xxClientError())
                     .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo(arg2)));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(400)))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalToIgnoringCase("Bad Request")))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.details.name", equalTo(arg2)));
         }
     }
 

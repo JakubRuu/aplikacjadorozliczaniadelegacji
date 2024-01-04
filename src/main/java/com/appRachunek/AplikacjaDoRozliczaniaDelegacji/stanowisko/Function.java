@@ -21,10 +21,10 @@ public class Function {
     @Id
     @GeneratedValue
     private Long id;
-
-    @Size(min = 2, max = 20, groups = {AddFunction.class, UpdateFunction.class})
     @NotBlank(groups = AddFunction.class)
+    @Size(min = 2, max = 20, groups = {AddFunction.class, UpdateFunction.class})
     private String name;
+
     private String function;
 
     public Function(String name, String function) {

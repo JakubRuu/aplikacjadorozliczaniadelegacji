@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
@@ -17,7 +18,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":"R"
                                         }
                                         """,
-                        "size must be between 2 and 20"
+                        Arrays.asList( "size must be between 2 and 20")
                 ),
                 Arguments.of(
                                         """
@@ -26,7 +27,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":""
                                         }
                                         """,
-                        "must not be blank"
+                        Arrays.asList("must not be blank","size must be between 2 and 20")
                 ),
                 Arguments.of(
                         """
@@ -34,7 +35,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "function":"Sędzia"     
                                         }
                                         """,
-                        "must not be blank"
+                        Arrays.asList( "must not be blank")
                 )
         );
     }
