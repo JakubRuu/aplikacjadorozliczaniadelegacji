@@ -1,11 +1,10 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person;
 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -16,7 +15,7 @@ interface UpdateFunction {
 }
 
 @Entity
-public class Function {
+public class Person {
 
     @Id
     @GeneratedValue
@@ -25,20 +24,30 @@ public class Function {
     @Size(min = 2, max = 20, groups = {AddFunction.class, UpdateFunction.class})
     private String name;
 
+    private String lastName;
+
     private String function;
 
-    public Function(String name, String function) {
+
+    public Person(String name, String function) {
         this.name = name;
         this.function = function;
     }
 
-    public Function(Long id, String name, String function) {
+    public Person(Long id, String name, String function) {
         this.id = id;
         this.name = name;
         this.function = function;
     }
 
-    public Function() {
+    public Person(Long id, String name, String lastName, String function) {
+        this.id = id;
+        this.name = name;
+        this.lastName=lastName;
+        this.function = function;
+    }
+
+    public Person() {
     }
 
     public Long getId() {
@@ -65,11 +74,20 @@ public class Function {
         this.function = function;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
-        return "Function{" +
+        return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", function='" + function + '\'' +
                 '}';
     }
@@ -78,12 +96,12 @@ public class Function {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Function function1 = (Function) o;
-        return Objects.equals(id, function1.id) && Objects.equals(name, function1.name) && Objects.equals(function, function1.function);
+        Person person = (Person) o;
+        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(lastName, person.lastName) && Objects.equals(function, person.function);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, function);
+        return Objects.hash(id, name, lastName, function);
     }
 }

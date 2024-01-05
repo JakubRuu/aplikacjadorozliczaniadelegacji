@@ -1,8 +1,8 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person;
 
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.SortFunctionArgumentProvider;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.UpdateFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.SortFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.UpdateFunctionArgumentProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,12 +24,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @ExtendWith(SpringExtension.class)
-class FunctionServiceTest {
+class PersonServiceTest {
 
     @MockBean
-    FunctionRepository functionRepository;
+    PersonRepository personRepository;
     @Autowired
-    FunctionService functionService;
+    PersonService personService;
 
     @ParameterizedTest
     @ArgumentsSource(SortFunctionArgumentProvider.class)
@@ -37,9 +37,9 @@ class FunctionServiceTest {
         //given
         ArgumentCaptor<Sort> sortArgumentCaptor = ArgumentCaptor.forClass(Sort.class);
         //when
-        functionService.getAllFunction(arg0);
+        personService.getAllFunction(arg0);
         //then
-        Mockito.verify(functionRepository).findAll(sortArgumentCaptor.capture());
+        Mockito.verify(personRepository).findAll(sortArgumentCaptor.capture());
         assertEquals(arg1, sortArgumentCaptor.getValue());
     }
 
@@ -48,26 +48,26 @@ class FunctionServiceTest {
     void when_add_invalid_function_then_exception_should_be_thrown() {
         //given
         String name = "Rutkowski";
-        Function arg = new Function(name, "Sędzia");
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.of(arg));
+        Person arg = new Person(name, "Sędzia");
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.of(arg));
 
         //when
         //then
-        assertThrows(IllegalArgumentException.class, () -> functionService.addFunction(arg));
+        assertThrows(IllegalArgumentException.class, () -> personService.addFunction(arg));
     }
 
     @Test
     void when_add_new_function_then_ir_should_be_added_to_repo() {
         //given
         String name = "Rutkowski";
-        Function arg = new Function(name, "Sędzia");
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.empty());
-        Mockito.when(functionRepository.save(arg)).thenReturn(arg);
+        Person arg = new Person(name, "Sędzia");
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.empty());
+        Mockito.when(personRepository.save(arg)).thenReturn(arg);
         //when
-        Function result = functionService.addFunction(arg);
+        Person result = personService.addFunction(arg);
         //then
         assertEquals(arg, result);
-        Mockito.verify(functionRepository).save(arg);
+        Mockito.verify(personRepository).save(arg);
     }
 
     @Test
@@ -75,14 +75,14 @@ class FunctionServiceTest {
         //given
         String name = "Rutkowski";
         Long id = 1L;
-        Function arg = new Function(id, name, "Sędzia");
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.of(arg));
+        Person arg = new Person(id, name, "Sędzia");
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.of(arg));
 
         //when
-        Function result = functionService.deleteFunction(name);
+        Person result = personService.deleteFunction(name);
         //then
         assertEquals(arg, result);
-        Mockito.verify(functionRepository).deleteById(id);
+        Mockito.verify(personRepository).deleteById(id);
     }
 
     @Test
@@ -90,41 +90,41 @@ class FunctionServiceTest {
         //given
         String name = "Rutkowski";
 
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.empty());
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.empty());
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> functionService.deleteFunction(name));
+        assertThrows(NoSuchElementException.class, () -> personService.deleteFunction(name));
     }
 
     @Test
     void when_update_non_existing_id_then_exception_should_be_thrown() {
         //given
         String name = "Rutkowski";
-        Function arg = new Function(name, "Sędzia");
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.empty());
+        Person arg = new Person(name, "Sędzia");
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.empty());
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> functionService.updateFunction(name, arg));
+        assertThrows(NoSuchElementException.class, () -> personService.updateFunction(name, arg));
     }
 
     @ParameterizedTest
     @ArgumentsSource(UpdateFunctionArgumentProvider.class)
     void when_update_arg_1_function_with_arg2_date_then_function_should_be_updated_to_arg3(
             String name,
-            Function arg1,
-            Function arg2,
-            Function arg3
+            Person arg1,
+            Person arg2,
+            Person arg3
     ) {
         //given
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.of(arg1));
-        Mockito.when(functionRepository.save(arg1)).thenReturn(arg3);
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.of(arg1));
+        Mockito.when(personRepository.save(arg1)).thenReturn(arg3);
         //when
-        Function result = functionService.updateFunction(name, arg2);
+        Person result = personService.updateFunction(name, arg2);
         //then
         assertEquals(arg3, result);
-        Mockito.verify(functionRepository).save(arg3);
+        Mockito.verify(personRepository).save(arg3);
     }
 
     @Test
@@ -132,51 +132,51 @@ class FunctionServiceTest {
         //given
         String name = "Rutkowski";
 
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.empty());
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.empty());
 
         //when
         //then
-        assertThrows(NoSuchElementException.class, () -> functionService.getFunction(name));
+        assertThrows(NoSuchElementException.class, () -> personService.getFunction(name));
     }
 
     @Test
     void when_get_existing_function_then_function_should_be_returned() {
         //given
         String name = "Rutkowski";
-        Function arg = new Function(name, "Sędzia");
-        Mockito.when(functionRepository.findByName(name)).thenReturn(Optional.of(arg));
+        Person arg = new Person(name, "Sędzia");
+        Mockito.when(personRepository.findByName(name)).thenReturn(Optional.of(arg));
 
 //when
-        Function result = functionService.getFunction(name);
+        Person result = personService.getFunction(name);
 //then
         assertEquals(arg, result);
-        Mockito.verify(functionRepository).findByName(name);
+        Mockito.verify(personRepository).findByName(name);
 
     }
     @Test
     void when_update_function_name_which_is_not_unique_then_exception_should_be_thrown(){
         //given
         String name1= "Rutkowski";
-        Function existingFun1 = new Function(name1,"Sędzia");
+        Person existingFun1 = new Person(name1,"Sędzia");
         String name2= "Iksiński";
-        Function existingFun2 = new Function(name2,"Sędzia Asystent");
-        Function updateFunction= new Function(name2,"Sędzia");
-        Mockito.when(functionRepository.findByName(name1)).thenReturn(Optional.of(existingFun1));
-        Mockito.when(functionRepository.findByName(name2)).thenReturn(Optional.of(existingFun2));
+        Person existingFun2 = new Person(name2,"Sędzia Asystent");
+        Person updateFunction= new Person(name2,"Sędzia");
+        Mockito.when(personRepository.findByName(name1)).thenReturn(Optional.of(existingFun1));
+        Mockito.when(personRepository.findByName(name2)).thenReturn(Optional.of(existingFun2));
 
         //when
         //then
         assertThrows(IllegalArgumentException.class, ()->{
-            functionService.updateFunction(name1, updateFunction);
+            personService.updateFunction(name1, updateFunction);
         });
-        Mockito.verify(functionRepository,Mockito.never()).save(updateFunction);
+        Mockito.verify(personRepository,Mockito.never()).save(updateFunction);
     }
 
     @TestConfiguration
     static class FunctionServiceTestConfig {
         @Bean
-        FunctionService functionService(FunctionRepository functionRepository) {
-            return new FunctionService(functionRepository);
+        PersonService functionService(PersonRepository personRepository) {
+            return new PersonService(personRepository);
         }
     }
 }

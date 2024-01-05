@@ -1,4 +1,4 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field;
 
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.Error;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
@@ -12,47 +12,47 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/functions")
-class FunctionController {
-    private final FunctionService functionService;
+@RequestMapping("/fields")
+public class FieldController {
+    private final FieldService fieldService;
 
-    public FunctionController(FunctionService functionService) {
-        this.functionService = functionService;
+    FieldController(FieldService fieldService) {
+        this.fieldService = fieldService;
     }
 
     @GetMapping
-    List<Function> getAll(@RequestParam SortType sortType) {
-        return functionService.getAllFunction(sortType);
+    List<Field> getAllField(@RequestParam SortType sortType) {
+        return fieldService.getAllField(sortType);
     }
 
     @PostMapping
-    Function add(@Validated(value = AddFunction.class) @RequestBody Function function) {
-        return functionService.addFunction(function);
+    Field add(@Validated(value = AddField.class) @RequestBody Field field) {
+        return fieldService.addField(field);
     }
 
-    @PutMapping("/{name}")
-    Function update(@PathVariable String name, @Validated(value = UpdateFunction.class) @RequestBody Function function) {
-        return functionService.updateFunction(name, function);
+    @PutMapping("/{id}")
+    Field update(@PathVariable String id, @Validated(value = UpdateField.class) @RequestBody Field field) {
+        return fieldService.updateField(id, field);
     }
 
-    @GetMapping("/{name}")
-    Function getWithId(String name) {
-        return functionService.getFunction(name);
+    @GetMapping("/{id}")
+    Field getWithId(String id) {
+        return fieldService.getField(id);
     }
 
-    @DeleteMapping("/{name}")
-    Function delete(@PathVariable String name) {
-        return functionService.deleteFunction(name);
+    @DeleteMapping("/{id}")
+    Field delete(@PathVariable String id) {
+        return fieldService.deleteField(id);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<Error<Map<String, List<String>>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
-        Map<String,List <String>> errors = new HashMap<>();
+        Map<String, List<String>> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            List<String> params=errors.getOrDefault(fieldName,new ArrayList<>());
+            List<String> params = errors.getOrDefault(fieldName, new ArrayList<>());
             params.add(errorMessage);
             errors.put(fieldName, params);
         });

@@ -1,9 +1,9 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person;
 
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.SortTypeArgumentProvider;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.ValidateAddFunctionArgumentProvider;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.ValidateUpdatedFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.SortTypeArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.ValidateAddFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.ValidateUpdatedFunctionArgumentProvider;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,20 +31,20 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(FunctionController.class)
-class FunctionControllerTest {
+@WebMvcTest(PersonController.class)
+class PersonControllerTest {
 
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    FunctionService functionService;
+    PersonService personService;
 
     @Test
     void when_add_valid_function_then_should_be_saved() throws Exception {
         //given
-        Function function = new Function("Rutkowski", "Sędzia");
-        Function addedFunction = new Function(1L, "Rutkowski", "Sędzia");
-        Mockito.when(functionService.addFunction(function)).thenReturn(addedFunction);
+        Person function = new Person("Rutkowski", "Sędzia");
+        Person addedFunction = new Person(1L, "Rutkowski", "Sędzia");
+        Mockito.when(personService.addFunction(function)).thenReturn(addedFunction);
         //then
         //when
         mockMvc.perform(MockMvcRequestBuilders.post("/functions")
@@ -83,8 +83,8 @@ class FunctionControllerTest {
     @Test
     void when_add_already_existing_organization_then_exception_should_be_thrown() throws Exception {
         //given
-        Function function = new Function("Rutkowski", "Sędzia");
-        Mockito.when(functionService.addFunction(function)).thenThrow(new IllegalArgumentException("organization already exists!"));
+        Person person = new Person("Rutkowski", "Sędzia");
+        Mockito.when(personService.addFunction(person)).thenThrow(new IllegalArgumentException("organization already exists!"));
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/functions")
@@ -108,8 +108,8 @@ class FunctionControllerTest {
     void when_delete_existing_function_then_it_should_be_deleted() throws Exception {
         //given
         String name = "Rutkowski";
-        Function deletedFunction = new Function(1L, name, "Sędzia");
-        Mockito.when(functionService.deleteFunction("Rutkowski")).thenReturn(deletedFunction);
+        Person deletedFunction = new Person(1L, name, "Sędzia");
+        Mockito.when(personService.deleteFunction("Rutkowski")).thenReturn(deletedFunction);
 
         //when
         //then
@@ -124,7 +124,7 @@ class FunctionControllerTest {
     void when_delete_non_existing_function_then_exception_should_be_thrown() throws Exception {
         //given
         String name = "Rutkowski";
-        Mockito.when(functionService.deleteFunction(name)).thenThrow(new NoSuchElementException("No organization found"));
+        Mockito.when(personService.deleteFunction(name)).thenThrow(new NoSuchElementException("No organization found"));
         //then
         //when
         mockMvc.perform(MockMvcRequestBuilders.delete("/functions/" + name)
@@ -140,8 +140,8 @@ class FunctionControllerTest {
     void when_update_non_existing_function_then_exception_should_be_thrown() throws Exception {
         //given
         String name = "Rutkowski";
-        Function function = new Function(name, "TEST");
-        Mockito.when(functionService.updateFunction(name, function)).thenThrow(new NoSuchElementException("No organization found"));
+        Person person = new Person(name, "TEST");
+        Mockito.when(personService.updateFunction(name, person)).thenThrow(new NoSuchElementException("No organization found"));
         //then
         //when
         mockMvc.perform(MockMvcRequestBuilders.put("/functions/" + name)
@@ -166,9 +166,9 @@ class FunctionControllerTest {
     void when_update_existing_function_then_function_should_be_update() throws Exception {
         //given
         String name = "Rutkowski";
-        Function function = new Function(name, "Sędzia");
-        Function updatedFunction = new Function(1L, name, "Sędzia");
-        Mockito.when(functionService.updateFunction(name, function)).thenReturn(updatedFunction);
+        Person function = new Person(name, "Sędzia");
+        Person updatedFunction = new Person(1L, name, "Sędzia");
+        Mockito.when(personService.updateFunction(name, function)).thenReturn(updatedFunction);
         //then
         //when
         mockMvc.perform(MockMvcRequestBuilders.put("/functions/" + name)
@@ -189,7 +189,7 @@ class FunctionControllerTest {
     @Test
     void when_get_empty_function_list_then_empty_array_should_be_returned() throws Exception {
         //given
-        Mockito.when(functionService.getAllFunction(SortType.ASC)).thenReturn(Collections.emptyList());
+        Mockito.when(personService.getAllFunction(SortType.ASC)).thenReturn(Collections.emptyList());
 
         //when
         //then
@@ -204,10 +204,10 @@ class FunctionControllerTest {
                                                                                   SortType arg2) throws Exception {
         //given
         ArgumentCaptor<SortType> sortArgumentCaptor = ArgumentCaptor.forClass(SortType.class);
-        Mockito.when(functionService.getAllFunction(arg2)).thenReturn(
+        Mockito.when(personService.getAllFunction(arg2)).thenReturn(
                 Arrays.asList(
-                        new Function("Rutkowski", "Sędzia"),
-                        new Function("Iksiński", "Sędzia asystent")
+                        new Person("Rutkowski", "Sędzia"),
+                        new Person("Iksiński", "Sędzia asystent")
                 )
         );
         //when
@@ -215,7 +215,7 @@ class FunctionControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/functions" + arg1)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
-        Mockito.verify(functionService).getAllFunction(sortArgumentCaptor.capture());
+        Mockito.verify(personService).getAllFunction(sortArgumentCaptor.capture());
         Assertions.assertEquals(arg2, sortArgumentCaptor.getValue());
     }
 

@@ -1,7 +1,8 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args;
 
 
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.Function;
+
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.Person;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -18,27 +19,27 @@ public class UpdateFunctionArgumentProvider implements ArgumentsProvider {
                 //expected
                 Arguments.of(
                         "1",
-                        new Function("1", "Sędzia"),
-                        new Function(null, "Sędzia Asystent"),
-                        new Function("1", "Sędzia Asystent")
+                        new Person("1", "Sędzia"),
+                        new Person(null, "Sędzia Asystent"),
+                        new Person("1", "Sędzia Asystent")
                 ),
                 Arguments.of(
                         "1",
-                        new Function("1", "Sędzia"),
-                        new Function("2", null),
-                        new Function("2", "Sędzia")
+                        new Person("1", "Sędzia"),
+                        new Person("2", null),
+                        new Person("2", "Sędzia")
                 ),
                 Arguments.of(
                         "1",
-                        new Function("1", "Sędzia"),
-                        new Function("2", "Sędzia Asystent"),
-                        new Function("2", "Sędzia Asystent")
+                        new Person("1", "Sędzia"),
+                        new Person("2", "Sędzia Asystent"),
+                        new Person("2", "Sędzia Asystent")
                 ),
                 Arguments.of(
                         "1",
-                        new Function("1", "Sędzia"),
-                        new Function(null, null),
-                        new Function("1", "Sędzia")
+                        new Person("1", "Sędzia"),
+                        new Person(null, null),
+                        new Person("1", "Sędzia")
                 )
         );
     }

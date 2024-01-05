@@ -1,7 +1,7 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person;
 
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.GetAllFunctionArgumentProvider;
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args.GetByIdFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.GetAllFunctionArgumentProvider;
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args.GetByIdFunctionArgumentProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,9 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DataJpaTest
-class FunctionRepositoryTest {
+class PersonRepositoryTest {
     @Autowired
-    FunctionRepository functionRepository;
+    PersonRepository personRepository;
     @Autowired
     TestEntityManager testEntityManager;
 
@@ -34,29 +34,29 @@ class FunctionRepositoryTest {
 
     @ParameterizedTest
     @ArgumentsSource(GetAllFunctionArgumentProvider.class)
-    void when_arg_0_data_are_available_in_repo_then_find_all_should_return_arg_1_list(List<Function> arg0,
-                                                                                      List<Function> arg1) {
+    void when_arg_0_data_are_available_in_repo_then_find_all_should_return_arg_1_list(List<Person> arg0,
+                                                                                      List<Person> arg1) {
         //given
         arg0.forEach(o ->
                 testEntityManager.persist(o));
         //when
-        List<Function> result = functionRepository.findAll();
+        List<Person> result = personRepository.findAll();
         //then
         assertEquals(arg1, result);
     }
 
     @ParameterizedTest
     @ArgumentsSource(GetByIdFunctionArgumentProvider.class)
-    void when_find_by_arg_1_when_arg_0_is_available_then_arg_2_item_should_be_returned(List<Function> arg0,
+    void when_find_by_arg_1_when_arg_0_is_available_then_arg_2_item_should_be_returned(List<Person> arg0,
                                                                                        Long arg1,
-                                                                                       Optional<Function> arg2) {
+                                                                                       Optional<Person> arg2) {
 
         //given
         arg0.forEach(o -> {
             testEntityManager.persist(o);
         });
         //when
-        Optional<Function> result = functionRepository.findById(arg1);
+        Optional<Person> result = personRepository.findById(arg1);
         //then
         assertEquals(arg2, result);
 
@@ -66,12 +66,12 @@ class FunctionRepositoryTest {
     void when_save_arg_0_to_repo_then_it_should_be_stored_properly() {
 
         //given
-        Function arg0 = new Function(1L, "Rutkowski", "Sędzia");
+        Person arg0 = new Person(1L, "Rutkowski", "Sędzia");
         //when
-        functionRepository.save(arg0);
+        personRepository.save(arg0);
 
         //then
-        assertEquals(arg0, testEntityManager.find(Function.class, 1L));
+        assertEquals(arg0, testEntityManager.find(Person.class, 1L));
     }
 
 }

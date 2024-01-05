@@ -1,13 +1,14 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Stream;
 
-public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
+public class ValidateUpdatedFunctionArgumentProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         return Stream.of(
@@ -18,7 +19,8 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":"R"
                                         }
                                         """,
-                        Arrays.asList( "size must be between 2 and 20")
+                        false,
+                        Arrays.asList("size must be between 2 and 20")
                 ),
                 Arguments.of(
                                         """
@@ -27,7 +29,8 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":""
                                         }
                                         """,
-                        Arrays.asList("must not be blank","size must be between 2 and 20")
+                        false,
+                        Arrays.asList( "size must be between 2 and 20")
                 ),
                 Arguments.of(
                         """
@@ -35,7 +38,8 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "function":"Sędzia"     
                                         }
                                         """,
-                        Arrays.asList( "must not be blank")
+                        true,
+                        Collections.emptyList()
                 )
         );
     }
