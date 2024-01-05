@@ -10,6 +10,7 @@ public class AplikacjaDoRozliczaniaDelegacjiApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(AplikacjaDoRozliczaniaDelegacjiApplication.class, args);
+        System.out.println();
     }
 
 }

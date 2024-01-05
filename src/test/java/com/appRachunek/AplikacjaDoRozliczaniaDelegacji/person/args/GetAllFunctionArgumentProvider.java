@@ -1,6 +1,7 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args;
 
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.Function;
+
+import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.Person;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -15,13 +16,13 @@ public class GetAllFunctionArgumentProvider implements ArgumentsProvider {
         return Stream.of(
                 Arguments.of(
                         Arrays.asList(
-                                new Function("Rutkowski", "Sędzia"),
-                                new Function("Iksinski", "Sędzia"),
-                                new Function("Wolf", "Obserwator")
+                                new Person("Rutkowski", "Sędzia"),
+                                new Person("Iksinski", "Sędzia"),
+                                new Person("Wolf", "Obserwator")
                         ), Arrays.asList(
-                                new Function(1L, "Rutkowski", "Sędzia"),
-                                new Function(2L, "Iksinski", "Sędzia"),
-                                new Function(3L, "Wolf", "Obserwator")
+                                new Person(1L, "Rutkowski", "Sędzia"),
+                                new Person(2L, "Iksinski", "Sędzia"),
+                                new Person(3L, "Wolf", "Obserwator")
                         )
                 ),
                 Arguments.of(Collections.emptyList(), Collections.emptyList())

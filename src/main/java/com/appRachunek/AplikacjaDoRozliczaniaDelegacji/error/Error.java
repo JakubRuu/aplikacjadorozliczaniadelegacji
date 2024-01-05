@@ -1,4 +1,4 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.error;
 
 public class Error<T> {
     private int code;

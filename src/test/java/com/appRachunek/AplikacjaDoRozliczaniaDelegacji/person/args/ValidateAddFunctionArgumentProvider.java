@@ -1,16 +1,14 @@
-package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.stanowisko.args;
+package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.args;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Stream;
 
-public class ValidateUpdatedFunctionArgumentProvider implements ArgumentsProvider {
+public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         return Stream.of(
@@ -21,8 +19,7 @@ public class ValidateUpdatedFunctionArgumentProvider implements ArgumentsProvide
                                             "name":"R"
                                         }
                                         """,
-                        false,
-                        Arrays.asList("size must be between 2 and 20")
+                        Set.of( "size must be between 2 and 20")
                 ),
                 Arguments.of(
                                         """
@@ -31,8 +28,7 @@ public class ValidateUpdatedFunctionArgumentProvider implements ArgumentsProvide
                                             "name":""
                                         }
                                         """,
-                        false,
-                        Arrays.asList( "size must be between 2 and 20")
+                        Set.of( "must not be blank","size must be between 2 and 20")
                 ),
                 Arguments.of(
                         """
@@ -40,8 +36,7 @@ public class ValidateUpdatedFunctionArgumentProvider implements ArgumentsProvide
                                             "function":"Sędzia"     
                                         }
                                         """,
-                        true,
-                        Collections.emptyList()
+                        Set.of(  "must not be blank")
                 )
         );
     }
