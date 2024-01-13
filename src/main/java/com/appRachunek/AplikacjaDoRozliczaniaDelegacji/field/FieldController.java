@@ -1,6 +1,5 @@
 package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field;
 
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +15,18 @@ public class FieldController {
     }
 
     @GetMapping
-    List<FieldDto> getAllField() {
-        return fieldService.getAllField();
+    List<FieldDto> getAllField(@RequestParam(required = false)  String identifier,
+                               @RequestParam(required = false)   String homeTeam,
+                               @RequestParam(required = false)  String fieldName,
+                               @RequestParam(required = false) String visitingTeam,
+                               @RequestParam(required = false) Integer fieldNo,
+                               @RequestParam(required = false)  String howManyReferee) {
+        return fieldService.getFieldBy(identifier,homeTeam,fieldName,visitingTeam,fieldNo,howManyReferee);
+    }
+
+    @GetMapping("/{id}")
+    FieldDto getById(String id) {
+        return fieldService.getFieldById(id);
     }
 
     @PostMapping
@@ -28,11 +37,6 @@ public class FieldController {
     @PutMapping("/{id}")
     FieldDto update(@PathVariable String id, @Validated(value = UpdateField.class) @RequestBody FieldDto field) {
         return fieldService.updateField(id, field);
-    }
-
-    @GetMapping("/{id}")
-    Field getWithId(String id) {
-        return fieldService.getField(id);
     }
 
     @DeleteMapping("/{id}")

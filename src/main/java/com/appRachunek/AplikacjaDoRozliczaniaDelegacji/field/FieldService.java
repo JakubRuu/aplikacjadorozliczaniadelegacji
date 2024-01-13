@@ -1,12 +1,11 @@
 package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field;
 
-import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.Person;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,9 +26,36 @@ class FieldService {
         this.fieldTransformer = fieldTransformer;
     }
 
+
     List<FieldDto> getAllField() {
         return fieldRepository.findAll()
                 .stream()
+                .map(fieldTransformer::toDto)
+                .collect(Collectors.toList());
+    }
+
+    FieldDto getFieldById(String id) {
+        return fieldRepository.findById(id)
+                .map(fieldTransformer::toDto)
+                .orElseThrow(() -> {
+                    throw new NoSuchElementException("No field found!");
+                });
+    }
+
+
+    List<FieldDto> getFieldBy(
+            String identifier,
+            String homeTeam,
+            String fieldName,
+            String visitingTeam,
+            Integer fieldNo,
+            String howManyReferees) {
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreNullValues();
+        Example<Field> fieldExample = Example.of(
+                new Field(null, identifier, homeTeam, visitingTeam, fieldNo, howManyReferees, new Person(fieldName))
+                , exampleMatcher
+        );
+        return fieldRepository.findAll(fieldExample).stream()
                 .map(fieldTransformer::toDto)
                 .collect(Collectors.toList());
     }

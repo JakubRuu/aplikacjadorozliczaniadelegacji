@@ -32,7 +32,7 @@ class PersonService {
 
 
     PersonDto addFunction(PersonDto personDto) {
-        Person person=personTransformer.fromDto(personDto);
+        Person person = personTransformer.fromDto(personDto);
         personRepository.findByName(person.getName()).ifPresent(d -> {
             throw new IllegalArgumentException("Dane się powtarzają");
         });
@@ -46,7 +46,7 @@ class PersonService {
     }
 
     PersonDto updateFunction(String name, PersonDto personDto) {
-        Person person= personTransformer.fromDto(personDto);
+        Person person = personTransformer.fromDto(personDto);
         Person updatedFunction = personRepository
                 .findByName(name)
                 .orElseThrow(() -> new NoSuchElementException(""));

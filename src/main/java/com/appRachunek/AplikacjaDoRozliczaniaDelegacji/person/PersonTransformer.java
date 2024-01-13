@@ -23,7 +23,7 @@ class PersonTransformer {
         );
     }
 
-    Person fromDto(PersonDto personDto){
+    Person fromDto(PersonDto personDto) {
         return new Person(
                 personDto.getId(),
                 personDto.getName(),
@@ -32,7 +32,7 @@ class PersonTransformer {
                 personDto.getFields()
                         .stream()
                         .map(fieldTransformer::fromDto)
-                         .collect(Collectors.toList())
+                        .collect(Collectors.toList())
         );
     }
 }

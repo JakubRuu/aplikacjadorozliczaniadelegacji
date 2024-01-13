@@ -22,7 +22,7 @@ public class PersonDto {
     private String name;
     private String lastName;
     private String function;
-    private List<FieldDto> fields=new ArrayList<>();
+    private List<FieldDto> fields = new ArrayList<>();
 
     public PersonDto(Long id, String name, String lastName, String function, List<FieldDto> fields) {
         this.id = id;
