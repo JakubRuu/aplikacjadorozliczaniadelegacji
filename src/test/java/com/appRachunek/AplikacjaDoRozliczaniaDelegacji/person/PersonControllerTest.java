@@ -24,8 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.*;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PersonController.class)
@@ -62,7 +61,7 @@ class PersonControllerTest {
 
     @ParameterizedTest
     @ArgumentsSource(ValidateAddFunctionArgumentProvider.class)
-    void when_add_invalid_function_arg1_then_exception_should_be_thrown_with_arg2_details(String arg1, Set<String> arg2) throws Exception {
+    void when_add_invalid_function_arg1_then_exception_should_be_thrown_with_arg2_details(String arg1, String[] arg2) throws Exception {
         //given
         //then
         //when
@@ -73,7 +72,7 @@ class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code", equalTo(400)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message", equalToIgnoringCase("Bad Request")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.details.name", equalTo(arg2)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.details.name").value(containsInAnyOrder(arg2)));
     }
 
 
@@ -186,7 +185,7 @@ class PersonControllerTest {
     @Test
     void when_get_empty_function_list_then_empty_array_should_be_returned() throws Exception {
         //given
-        Mockito.when(personService.getAllFunction(SortType.ASC)).thenReturn(Collections.emptyList());
+        Mockito.when(personService.getAllFunctions(SortType.ASC)).thenReturn(Collections.emptyList());
 
         //when
         //then
@@ -201,7 +200,7 @@ class PersonControllerTest {
                                                                                   SortType arg2) throws Exception {
         //given
         ArgumentCaptor<SortType> sortArgumentCaptor = ArgumentCaptor.forClass(SortType.class);
-        Mockito.when(personService.getAllFunction(arg2)).thenReturn(
+        Mockito.when(personService.getAllFunctions(arg2)).thenReturn(
                 Arrays.asList(
                         new PersonDto("Rutkowski", "Sędzia"),
                         new PersonDto("Iksiński", "Sędzia asystent")
@@ -212,7 +211,7 @@ class PersonControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/functions" + arg1)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)));
-        Mockito.verify(personService).getAllFunction(sortArgumentCaptor.capture());
+        Mockito.verify(personService).getAllFunctions(sortArgumentCaptor.capture());
         Assertions.assertEquals(arg2, sortArgumentCaptor.getValue());
     }
 

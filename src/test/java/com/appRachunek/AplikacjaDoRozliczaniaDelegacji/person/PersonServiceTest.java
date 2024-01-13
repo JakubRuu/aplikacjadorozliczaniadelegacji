@@ -39,7 +39,7 @@ class PersonServiceTest {
         //given
         ArgumentCaptor<Sort> sortArgumentCaptor = ArgumentCaptor.forClass(Sort.class);
         //when
-        personService.getAllFunction(arg0);
+        personService.getAllFunctions(arg0);
         //then
         Mockito.verify(personRepository).findAll(sortArgumentCaptor.capture());
         assertEquals(arg1, sortArgumentCaptor.getValue());

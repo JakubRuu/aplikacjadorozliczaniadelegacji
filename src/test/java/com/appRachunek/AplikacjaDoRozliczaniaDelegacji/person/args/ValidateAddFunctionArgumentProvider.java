@@ -19,7 +19,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":"R"
                                         }
                                         """,
-                        Set.of( "size must be between 2 and 20")
+                        new String[]{ "size must be between 2 and 20"}
                 ),
                 Arguments.of(
                                         """
@@ -28,7 +28,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "name":""
                                         }
                                         """,
-                        Set.of( "must not be blank","size must be between 2 and 20")
+                        new String[]{ "must not be blank","size must be between 2 and 20"}
                 ),
                 Arguments.of(
                         """
@@ -36,7 +36,7 @@ public class ValidateAddFunctionArgumentProvider implements ArgumentsProvider {
                                             "function":"Sędzia"     
                                         }
                                         """,
-                        Set.of(  "must not be blank")
+                        new String[]{  "must not be blank"}
                 )
         );
     }

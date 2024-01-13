@@ -16,8 +16,8 @@ class PersonController {
     }
 
     @GetMapping
-    List<PersonDto> getAll(@RequestParam SortType sortType) {
-        return personService.getAllFunction(sortType);
+    List<PersonDto> getAll(@RequestParam(defaultValue = "ASC") SortType sortType) {
+        return personService.getAllFunctions(sortType);
     }
 
     @PostMapping

@@ -14,11 +14,11 @@ public class SortFunctionArgumentProvider implements ArgumentsProvider {
         return Stream.of(
                 Arguments.of(
                         SortType.ASC,
-                        Sort.by(Sort.Direction.ASC, "id")
+                        Sort.by(Sort.Direction.ASC, "name")
                 ),
                 Arguments.of(
                         SortType.DESC,
-                        Sort.by(Sort.Direction.DESC, "id")
+                        Sort.by(Sort.Direction.DESC, "name")
                 )
 
 

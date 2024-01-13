@@ -3,7 +3,6 @@ package com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.SortType;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,8 +19,8 @@ class PersonService {
         this.personTransformer = personTransformer;
     }
 
-    List<PersonDto> getAllFunction(@RequestParam(defaultValue = "ASC") SortType sortType) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortType.name()), "id");
+    List<PersonDto> getAllFunctions(SortType sortType) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortType.name()), "name");
         return personRepository.findAll(sort).stream().map(personTransformer::toDto).collect(Collectors.toList());
     }
 

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Person {
     private String lastName;
     private String function;
     @OneToMany(mappedBy = "person")
-    private List<Field> fields;
+    private List<Field> fields=new ArrayList<>();
 
     public Person(String name) {
         this.name = name;

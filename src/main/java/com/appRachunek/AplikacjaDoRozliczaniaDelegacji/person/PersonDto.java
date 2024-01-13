@@ -4,6 +4,7 @@ import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field.FieldDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class PersonDto {
     private String name;
     private String lastName;
     private String function;
-    private List<FieldDto> fields;
+    private List<FieldDto> fields=new ArrayList<>();
 
     public PersonDto(Long id, String name, String lastName, String function, List<FieldDto> fields) {
         this.id = id;
