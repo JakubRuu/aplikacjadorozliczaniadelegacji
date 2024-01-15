@@ -50,7 +50,7 @@ class FieldService {
             String visitingTeam,
             Integer fieldNo,
             String howManyReferees) {
-        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues();
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues(); //matchingAll zawęża
         Example<Field> fieldExample = Example.of(
                 new Field(null, identifier, homeTeam, visitingTeam, fieldNo, howManyReferees, new Person(fieldName))
                 , exampleMatcher
