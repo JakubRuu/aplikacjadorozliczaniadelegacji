@@ -14,6 +14,7 @@ public class FieldTransformer {
                 field.getHomeTeam(),
                 field.getVisitingTeam(),
                 field.getFieldNo(),
+                field.isAvailable(),
                 field.getHowManyReferees(),
                 field.getPerson().getName()
         );
@@ -26,6 +27,7 @@ public class FieldTransformer {
                 fieldDto.getHomeTeam(),
                 fieldDto.getVisitingTeam(),
                 fieldDto.getFieldNo(),
+                fieldDto.isAvailable(),
                 fieldDto.getHowManyReferees(),
                 new Person(fieldDto.getPerson())
         );

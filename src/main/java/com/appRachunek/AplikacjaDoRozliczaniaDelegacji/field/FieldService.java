@@ -49,10 +49,11 @@ class FieldService {
             String fieldName,
             String visitingTeam,
             Integer fieldNo,
+            boolean isAvailable,
             String howManyReferees) {
         ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues(); //matchingAll zawęża
         Example<Field> fieldExample = Example.of(
-                new Field(null, identifier, homeTeam, visitingTeam, fieldNo, howManyReferees, new Person(fieldName))
+                new Field(identifier,  homeTeam, fieldName, visitingTeam, fieldNo, isAvailable,howManyReferees, new Person(fieldName))
                 , exampleMatcher
         );
         return fieldRepository.findAll(fieldExample).stream()
@@ -67,9 +68,7 @@ class FieldService {
     FieldDto addField(FieldDto fieldDto) {
         Field field = fieldTransformer.fromDto(fieldDto);
         Person personFromRepo = personRepository.findByName(field.getPerson().getName())
-                .orElseThrow(() -> {
-                    throw new NoSuchElementException();
-                });
+                .orElseThrow(NoSuchElementException::new);
         field.setPerson(personFromRepo);
         fieldRepository.findByNameAndPerson_Name(field.getName(),
                         field.getPerson().getName())

@@ -37,6 +37,7 @@ class ReservationRepositoryTest {
                 "Jaga",
                 5,
                 "10",
+                true,
                 null);
        Field fieldFromDb= testEntityManager.persist(field);
         Reservation reservation = new Reservation(

@@ -20,6 +20,7 @@ class FieldUpdater {
         Field fieldToUpdate = fieldRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No field to update found!"));
         boolean isNameUpdated = updateNameOfObject(fieldToUpdate, field);
+        updateIsAvailable(fieldToUpdate,field);
         updateHomeTeam(fieldToUpdate, field);
         updateVisitingTeam(fieldToUpdate, field);
         updateFieldNo(fieldToUpdate, field);
@@ -69,6 +70,10 @@ class FieldUpdater {
         if (homeTeam != null) {
             fieldToUpdate.setHomeTeam(homeTeam);
         }
+    }
+    private void updateIsAvailable(Field fieldToUpdate, Field field) {
+        boolean isAvailable = field.isAvailable();
+        fieldToUpdate.setAvailable(isAvailable);
     }
 
     private void updateVisitingTeam(Field fieldToUpdate, Field field) {

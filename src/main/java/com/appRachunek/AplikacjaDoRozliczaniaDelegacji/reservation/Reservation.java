@@ -7,19 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 
-interface AddReservation {
 
-}
-
-interface UpdateReservation {
-
-}
 
 @Entity
 public class Reservation {
@@ -32,12 +24,9 @@ public class Reservation {
     )
     private String id;
 
-    @NotNull(groups = AddReservation.class)
     private LocalDateTime startDate;
-    @NotNull(groups = AddReservation.class)
     private LocalDateTime endDate;
 
-    @Size(min = 2, max = 20, groups = { AddReservation.class, UpdateReservation.class })
     private String reservationName;
 
     @ManyToOne
@@ -75,5 +64,45 @@ public class Reservation {
                 ", reservationName='" + reservationName + '\'' +
                 ", field=" + field +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getReservationName() {
+        return reservationName;
+    }
+
+    public void setReservationName(String reservationName) {
+        this.reservationName = reservationName;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
     }
 }

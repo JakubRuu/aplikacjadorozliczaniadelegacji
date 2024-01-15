@@ -20,8 +20,9 @@ public class FieldController {
                                @RequestParam(required = false)  String fieldName,
                                @RequestParam(required = false) String visitingTeam,
                                @RequestParam(required = false) Integer fieldNo,
+                               @RequestParam(required = false) boolean isAvailable,
                                @RequestParam(required = false)  String howManyReferee) {
-        return fieldService.getFieldBy(identifier,homeTeam,fieldName,visitingTeam,fieldNo,howManyReferee);
+        return fieldService.getFieldBy(identifier,homeTeam,fieldName,visitingTeam,fieldNo,isAvailable,howManyReferee);
     }
 
     @GetMapping("/{id}")

@@ -21,6 +21,7 @@ public class FieldDto {
     @Min(value = 0, groups = {AddField.class, UpdateField.class})
     @Max(value = 10, groups = {AddField.class, UpdateField.class})
     private Integer fieldNo;
+    private boolean isAvailable;
     @NotNull(groups = AddField.class)
     private String howManyReferees;
     @NotBlank
@@ -29,18 +30,27 @@ public class FieldDto {
     public FieldDto() {
     }
 
-    public FieldDto(String id, String name, String homeTeam, String visitingTeam, Integer fieldNo, String howManyReferees, String person) {
+    public FieldDto(String id, String name, String homeTeam, String visitingTeam, Integer fieldNo, boolean isAvailable, String howManyReferees, String person) {
         this.id = id;
         this.name = name;
         this.homeTeam = homeTeam;
         this.visitingTeam = visitingTeam;
         this.fieldNo = fieldNo;
+        this.isAvailable = isAvailable;
         this.howManyReferees = howManyReferees;
         this.person = person;
     }
 
-    //todo
+//todo
 
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public String getId() {
         return id;
@@ -103,11 +113,26 @@ public class FieldDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FieldDto fieldDto = (FieldDto) o;
-        return Objects.equals(id, fieldDto.id) && Objects.equals(name, fieldDto.name) && Objects.equals(homeTeam, fieldDto.homeTeam) && Objects.equals(visitingTeam, fieldDto.visitingTeam) && Objects.equals(fieldNo, fieldDto.fieldNo) && Objects.equals(howManyReferees, fieldDto.howManyReferees) && Objects.equals(person, fieldDto.person);
+        return isAvailable == fieldDto.isAvailable && Objects.equals(id, fieldDto.id) && Objects.equals(name, fieldDto.name) && Objects.equals(homeTeam, fieldDto.homeTeam) && Objects.equals(visitingTeam, fieldDto.visitingTeam) && Objects.equals(fieldNo, fieldDto.fieldNo) && Objects.equals(howManyReferees, fieldDto.howManyReferees) && Objects.equals(person, fieldDto.person);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, homeTeam, visitingTeam, fieldNo, howManyReferees, person);
+        return Objects.hash(id, name, homeTeam, visitingTeam, fieldNo, isAvailable, howManyReferees, person);
+    }
+
+    @Override
+    public String toString() {
+        return "FieldDto{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", homeTeam='" + homeTeam + '\'' +
+                ", visitingTeam='" + visitingTeam + '\'' +
+                ", fieldNo=" + fieldNo +
+                ", isAvailable=" + isAvailable +
+                ", howManyReferees='" + howManyReferees + '\'' +
+                ", person='" + person + '\'' +
+                '}';
     }
 }
+
