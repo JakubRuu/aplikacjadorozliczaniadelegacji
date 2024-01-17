@@ -4,6 +4,7 @@ import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field.Field;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.field.FieldRepository;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.Person;
 import com.appRachunek.AplikacjaDoRozliczaniaDelegacji.person.PersonRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,14 +13,20 @@ import javax.annotation.PostConstruct;
 class AppInitializer {
     private final FieldRepository fieldRepository;
     private final PersonRepository personRepository;
+    private final Boolean loadData;
 
-    public AppInitializer(FieldRepository fieldRepository, PersonRepository personRepository) {
+    public AppInitializer(FieldRepository fieldRepository, PersonRepository personRepository,
+                           @Value( "${init.load-date}") Boolean loadData) {
         this.fieldRepository = fieldRepository;
         this.personRepository = personRepository;
+        this.loadData=loadData;
     }
 
     @PostConstruct
     void init(){
+        if (!loadData){
+            return;
+        }
         Person person1= new Person("PZPN", "Sędzia");
         Person person2= new Person("PZPN1", "Sędzia1");
         Person person3= new Person("PZPN2", "Sędzia2");
